@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-
+  <q-page-container>
      <q-header elevated class="bg-black">
         <q-toolbar>
           
@@ -27,7 +27,8 @@
   
 
    
- 
+  <router-view />
+  </q-page-container>
   </q-layout>
 </template>
 
@@ -54,7 +55,9 @@ export default {
     }
     return {
       leftDrawerOpen: ref(true),
-      goMethod
+      goMethod,
+      HOME,
+      AUTH_PAGE
     }
 
   },
