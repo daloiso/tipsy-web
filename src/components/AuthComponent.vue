@@ -63,13 +63,10 @@ import ForgotPassword from "./ForgotPassword.vue";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-
-
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-
-
-import {HOME, AUTH_PAGE} from '../router/routes'
+import {HOME, AUTH_PAGE} from '../router/routes';
+import {registerUser} from 'src/service/api';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCx2Jtbf51lWlsJHaUZgUObmDv_TkvdVQQ",
@@ -80,11 +77,7 @@ const firebaseConfig = {
   appId: "1:973178688229:web:0936b2103950c52cb37a0c",
   measurementId: "G-V7181SKZDC"
 };
-
-// Use this to initialize the firebase App
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-const analytics = getAnalytics(firebaseApp);
-// Use these for db & auth
 const auth = firebase.auth();
 
 export default {
@@ -111,14 +104,32 @@ export default {
     google() {
       const provider = new firebase.auth.GoogleAuthProvider()
       firebase.auth().signInWithPopup(provider)
-      .then(result => {
+      .then(result=>registerUserAll(result))
+      .catch(error => console.log('error',error))
+    },
+    async registerUserAll(result){
+      
+        //registro
+        console.log(result);
+        let data= await registerUserOnDb(result);
+        //home
         let route = {
           name:HOME.name,
           params:{}
         }
-        this.$router.push(route);
-      })
-      .catch(error => console.log('error',error))
+        this.$router.push(route)
+    },
+    async registerUserOnDb(result){
+      let payload={
+        username:'',
+        email:''
+      }
+      try{
+        let data = await registerUser(payload);
+      }catch(error){
+        let message="non è stato possisbile registrare su db l'utente"
+        console.log(message);
+      }
     },
     signInExistingUser(email, password) {
       console.log(email, password);

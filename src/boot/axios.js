@@ -21,4 +21,7 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 })
 
+export const http = axios.create({
+  baseURL:'http://localhost:8080'
+})
 export { api }
