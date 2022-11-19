@@ -16,10 +16,16 @@ export const AUTH_PAGE ={
   component:()=>import("pages/AuthPage.vue")
 }
 
+export const VISUALIZZA_LOCALI ={
+  path:"/visualizzalocali",
+  name:"visualizzalocali",
+  component:()=>import("pages/VisualizzaLocaliPage.vue")
+}
+
 export const LAYOUT_APP ={
   path:"/",
   component:()=>import("layouts/MainLayout.vue"),
-  children:[HOME, AUTH_PAGE, ERROR_PAGE]
+  children:[HOME, AUTH_PAGE, ERROR_PAGE, VISUALIZZA_LOCALI]
 }
 
 const routes = [

@@ -24,6 +24,12 @@
        
         </q-item-label>
         <q-separator spaced />
+        <q-item-label header @click="gotoLocali" >
+        
+        Visualizza Locali
+     
+      </q-item-label>
+      <q-separator spaced />
       </q-list>
     </q-drawer>
 
@@ -37,7 +43,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import {HOME, AUTH_PAGE} from '../router/routes'
+import {HOME, AUTH_PAGE, VISUALIZZA_LOCALI} from '../router/routes'
 
 
 export default {
@@ -72,7 +78,15 @@ export default {
         params:{}
       }
       this.$router.push(route);
+    },
+    gotoLocali(){
+      let route = {
+        name:VISUALIZZA_LOCALI.name,
+        params:{}
+      }
+      this.$router.push(route);
     }
+
   }
 
 }
