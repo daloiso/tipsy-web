@@ -60,6 +60,33 @@
 
 <script>
 import ForgotPassword from "./ForgotPassword.vue";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+
+import {HOME, AUTH_PAGE} from '../router/routes'
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCx2Jtbf51lWlsJHaUZgUObmDv_TkvdVQQ",
+  authDomain: "tipsy-368410.firebaseapp.com",
+  projectId: "tipsy-368410",
+  storageBucket: "tipsy-368410.appspot.com",
+  messagingSenderId: "973178688229",
+  appId: "1:973178688229:web:0936b2103950c52cb37a0c",
+  measurementId: "G-V7181SKZDC"
+};
+
+// Use this to initialize the firebase App
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebaseApp);
+// Use these for db & auth
+const auth = firebase.auth();
+
 export default {
   name: "AuthComponent",
   props: ["tab"],
@@ -82,7 +109,16 @@ export default {
       }
     },
     google() {
-      console.log("google login & signup");
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithPopup(provider)
+      .then(result => {
+        let route = {
+          name:HOME.name,
+          params:{}
+        }
+        this.$router.push(route);
+      })
+      .catch(error => console.log('error',error))
     },
     signInExistingUser(email, password) {
       console.log(email, password);
