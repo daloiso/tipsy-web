@@ -13,12 +13,15 @@
       v-model="leftDrawerOpen"
       bordered>
       <q-list>
-        <q-item-label header :to="HOME" >
+        <q-item-label header @click="gotoHome" >
+      
           Home
         </q-item-label>
         <q-separator spaced />
-         <q-item-label header :to="AUTH_PAGE" >
+         <q-item-label header @click="gotoLogin" >
+        
           Login
+       
         </q-item-label>
         <q-separator spaced />
       </q-list>
@@ -46,23 +49,30 @@ export default {
 
   setup () {
    
-    function goMethod (e, go) {
-      e.preventDefault() ;
-      setTimeout(() => {
-        // console.log('navigating as promised 2s ago')
-        go()
-      }, 2000)
-    }
+  
     return {
       leftDrawerOpen: ref(true),
-      goMethod,
+      
       HOME,
       AUTH_PAGE
     }
 
   },
   methods:{
-
+    gotoHome(){
+      let route = {
+        name:HOME.name,
+        params:{}
+      }
+      this.$router.push(route);
+    },
+    gotoLogin(){
+      let route = {
+        name:AUTH_PAGE.name,
+        params:{}
+      }
+      this.$router.push(route);
+    }
   }
 
 }
