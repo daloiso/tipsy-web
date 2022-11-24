@@ -1,29 +1,84 @@
 <template>
-  <q-page class="flex q-pa-md">
-    Welcome Home
-    <q-space />
-    <!--
-    <div>
+  <q-page>
+    <div class="row justify-center">
+      <div class="text-center" :class="$q.screen.lt.sm ? 'col-8' : 'col-4'">
+        <lottie-player
+          src="https://assets9.lottiefiles.com/packages/lf20_jqpju2hc.json"
+          background="transparent"
+          speed="1"
+          loop
+          autoplay
+        ></lottie-player>
+      </div>
+    </div>
+    <div class="row justify-center">
+      <div class="col-10 text-center">
+        <p>Latitude: {{ latitude }}</p>
+        <p>Longitude: {{ longitude }}</p>
+      </div>
+    </div>
+    <div class="row justify-center q-mt-lg">
       <q-btn
-        class="flex flex-center q-px-lg q-py-sm q-mb-md"
-        size="md"
-        label="Logout"
-        @click="logout"
-        color="primary"
+        :class="$q.screen.lt.sm ? 'col-8' : 'col-4'"
+        color="indigo"
+        label="Mia localizzazione"
+        push
+        size="lg"
+        @click="getGeolocation"
       />
     </div>
-    -->
   </q-page>
 </template>
 
 <script>
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: "HomePage",
   data() {
-    return {};
+    return {
+      latitude: "",
+      longitude: "",
+    };
   },
   methods: {
+    getGeolocation() {
+      if (navigator.geolocation) {
+        this.$q.loading.show();
+        navigator.geolocation.getCurrentPosition(
+          this.setPosition,
+          this.errorPosition
+        );
+      } else {
+        this.errorPosition();
+      }
+    },
+    setPosition(position) {
+      const coords = position.coords;
+      this.latitude = coords.latitude;
+      this.longitude = coords.longitude;
+      this.$q.loading.hide();
+      this.successNotify();
+    },
+    errorPosition() {
+      this.$q.notify({
+        position: "bottom",
+        timeout: 3000,
+        color: "negative",
+        textColor: "white",
+        actions: [{ icon: "close", color: "white" }],
+        message: "Posizione non recuperata!",
+      });
+      this.$q.loading.hide();
+    },
+    successNotify() {
+      this.$q.notify({
+        position: "bottom",
+        timeout: 3000,
+        color: "positive",
+        textColor: "white",
+        actions: [{ icon: "check", color: "white" }],
+        message: "Posizione recuperata!",
+      });
+    },
     logout() {
       console.log("logged out");
     },
