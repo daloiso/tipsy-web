@@ -42,6 +42,7 @@
 
 <script>
 import { ref } from 'vue'
+import { Notify } from 'quasar'
 
 export default {
   name: 'InserisciLocale',
@@ -61,7 +62,7 @@ export default {
       model: ref(null),
 
       onSubmit () {
-        alert();
+        Notify.create("DANGER PASQUALE")
       },
 
       onReset () {
