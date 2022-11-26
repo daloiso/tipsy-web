@@ -22,10 +22,16 @@ export const VISUALIZZA_LOCALI ={
   component:()=>import("pages/VisualizzaLocaliPage.vue")
 }
 
+export const INSERISCI_LOCALE ={
+  path:"/inseriscilocale",
+  name:"inseriscilocale",
+  component:()=>import("pages/InserisciLocale.vue")
+}
+
 export const LAYOUT_APP ={
   path:"/",
   component:()=>import("layouts/MainLayout.vue"),
-  children:[HOME, AUTH_PAGE, ERROR_PAGE, VISUALIZZA_LOCALI]
+  children:[HOME, AUTH_PAGE, ERROR_PAGE, VISUALIZZA_LOCALI, INSERISCI_LOCALE]
 }
 
 const routes = [
