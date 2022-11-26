@@ -4,7 +4,7 @@
  *
  * You are probably looking on adding startup/initialization code.
  * Use "quasar new boot <name>" and add it there.
- * One boot file per concern. Then reference the file(s) in quasar.config.js > boot:
+ * One boot file per concern. Then reference the file(s) in quasar.conf.js > boot:
  * boot: ['file', ...] // do not add ".js" extension to it.
  *
  * Boot files are your "main.js"
@@ -12,21 +12,17 @@
 
 
 
+
+
 import App from 'app/src/App.vue'
-let appPrefetch = typeof App.preFetch === 'function'
-  ? App.preFetch
-  : (
-    // Class components return the component options (and the preFetch hook) inside __c property
-    App.__c !== void 0 && typeof App.__c.preFetch === 'function'
-      ? App.__c.preFetch
-      : false
-    )
+let appOptions = App.options /* Vue.extend() */ || App
+let appPrefetch = typeof appOptions.preFetch === 'function'
 
 
 function getMatchedComponents (to, router) {
   const route = to
     ? (to.matched ? to : router.resolve(to).route)
-    : router.currentRoute.value
+    : router.currentRoute
 
   if (!route) { return [] }
 
@@ -39,13 +35,13 @@ function getMatchedComponents (to, router) {
       const comp = m.components[key]
       return {
         path: m.path,
-        c: comp
+        c: comp.options /* Vue.extend() */ || comp
       }
     })
   }))
 }
 
-export function addPreFetchHooks ({ router, publicPath }) {
+export function addPreFetchHooks (router, publicPath) {
   // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
@@ -65,17 +61,13 @@ export function addPreFetchHooks ({ router, publicPath }) {
           m.path.indexOf('/:') > -1 // does it has params?
         ))
       })
-      .filter(m => m.c !== void 0 && (
-        typeof m.c.preFetch === 'function'
-        // Class components return the component options (and the preFetch hook) inside __c property
-        || (m.c.__c !== void 0 && typeof m.c.__c.preFetch === 'function')
-      ))
-      .map(m => m.c.__c !== void 0 ? m.c.__c.preFetch : m.c.preFetch)
+      .filter(m => m.c && typeof m.c.preFetch === 'function')
+      .map(m => m.c.preFetch)
 
     
-    if (appPrefetch !== false) {
-      preFetchList.unshift(appPrefetch)
+    if (appPrefetch === true) {
       appPrefetch = false
+      preFetchList.unshift(appOptions.preFetch)
     }
     
 
