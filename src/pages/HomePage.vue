@@ -1,7 +1,10 @@
 <template>
   <q-page class="flex q-pa-md">
-    Welcome Home
-    <q-space />
+    <div>
+      <h3>Tipsy Web</h3>
+      <img src="../assets/imgs/tipsy-brewery-1.jpg" alt="">
+
+    </div>
     <!--
     <div>
       <q-btn
@@ -17,9 +20,11 @@
 </template>
 
 <script>
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "HomePage",
+
   data() {
     return {};
   },
