@@ -43,10 +43,10 @@
 <script>
 import { ref } from 'vue'
 import { Notify } from 'quasar'
+import {registerUser} from 'src/service/api';
 
 export default {
   name: 'InserisciLocale',
-
   setup () {
     const via = ref(null)
     const nome = ref(null)
@@ -62,7 +62,8 @@ export default {
       model: ref(null),
 
       onSubmit () {
-        Notify.create("DANGER PASQUALE")
+        //Notify.create("DANGER PASQUALE")
+        registerLocaleOnDb()
       },
 
       onReset () {
@@ -71,7 +72,24 @@ export default {
         tipologia.value = false
       }
     }
+  },
+
+  methods: {
+    async registerLocaleOnDb(result){
+      let payload={
+        name:'1',
+        posizionex:'2',
+        posizioney:'3'
+      }
+      try{
+        let data = await registerUser(payload);
+      }catch(error){
+        let message="non è stato possibile registrare il locale sul db "
+        console.log(message);
+      }
+    }
   }
+
 
 };
 
