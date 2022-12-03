@@ -4,7 +4,6 @@
 
     <q-form
       @submit="onSubmit"
-      @reset="onReset"
       class="q-gutter-md"
     >
     <q-input
@@ -27,12 +26,11 @@
         ]"
       />
 
-      <q-select v-model="model" :options="options" label="Standard" />
+      <q-select v-model="tipologia" :options="options" label="Standard" />
 
 
       <div>
         <q-btn label="Submit" type="submit" color="primary"/>
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
 
@@ -47,40 +45,32 @@ import {registerUser} from 'src/service/api';
 
 export default {
   name: 'InserisciLocale',
-  setup () {
-    const via = ref(null)
-    const nome = ref(null)
-    const tipologia = ref(null)
-    const options = ['Birreria', 'Vineria', 'Cocktail Bar']
 
+  data() {
 
     return {
-      via,
-      nome,
-      tipologia,
-      options,
-      model: ref(null),
-
-      onSubmit () {
-        //Notify.create("DANGER PASQUALE")
-        registerLocaleOnDb()
-      },
-
-      onReset () {
-        via.value = null
-        nome.value = null
-        tipologia.value = false
-      }
-    }
+      options : ['Birreria', 'Vineria', 'Cocktail Bar'],
+      via: "",
+      nome: "",
+      tipologia: ""
+    };
   },
 
   methods: {
-    async registerLocaleOnDb(result){
+    onSubmit () {
+        this.registerLocaleOnDb(this.via, this.nome, this.tipologia)
+      },
+
+    async registerLocaleOnDb(via, nome, tipologia){
+      /*
       let payload={
-        name:'1',
+        name:'Da Pino',
         posizionex:'2',
         posizioney:'3'
       }
+      */
+      console.log(via + nome + tipologia);
+
       try{
         let data = await registerUser(payload);
       }catch(error){
