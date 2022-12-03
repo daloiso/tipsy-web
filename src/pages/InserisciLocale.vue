@@ -15,6 +15,9 @@
           val => val && val.length > 0 || 'Please type something'
         ]"
       />
+      <button @click="searchPlace">
+      Cerca via
+      </button>
 
       <q-input
         filled
@@ -41,7 +44,8 @@
 <script>
 import { ref } from 'vue'
 import { Notify } from 'quasar'
-import {registerUser} from 'src/service/api';
+import {registerLocale, getPlace} from 'src/service/api';
+import console from 'console';
 
 export default {
   name: 'InserisciLocale',
@@ -61,6 +65,11 @@ export default {
         this.registerLocaleOnDb(this.via, this.nome, this.tipologia)
       },
 
+    async searchPlace(){
+      let geolocationJson = await getPlace(this.via)
+      console.log(geolocationJson);
+    },
+
     async registerLocaleOnDb(via, nome, tipologia){
       /*
       let payload={
@@ -72,7 +81,7 @@ export default {
       console.log(via + nome + tipologia);
 
       try{
-        let data = await registerUser(payload);
+        let data = await registerLocale(payload);
       }catch(error){
         let message="non è stato possibile registrare il locale sul db "
         console.log(message);
