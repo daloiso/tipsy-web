@@ -31,9 +31,8 @@
 
       <q-select v-model="tipologia" :options="options" label="Standard" />
 
-
       <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
+        <q-btn label="Submit" type="submit" color="primary" :disabled="posizioneX==0"/>
       </div>
     </q-form>
 
@@ -56,36 +55,52 @@ export default {
       options : ['Birreria', 'Vineria', 'Cocktail Bar'],
       via: "",
       nome: "",
-      tipologia: ""
+      tipologia: "",
+      posizioneX: 0,
+      posizioneY: 0
     };
   },
 
   methods: {
     onSubmit () {
-        this.registerLocaleOnDb(this.via, this.nome, this.tipologia)
+        this.registerLocaleOnDb(this.nome, this.tipologia)
       },
 
     async searchPlace(){
-      let geolocationJson = await getPlace(this.via)
-      console.log(geolocationJson);
+      try{
+        let geolocationJson = await getPlace(this.via)
+        let res = await geolocationJson.data.features[0].geometry.coordinates;
+
+        this.posizioneX = res[0]
+        this.posizioneY = res[1]
+
+
+      }catch(SearchPlaceError){
+        console.log("Search Place error: " + SearchPlaceError)
+        Notify.create("API don't work");
+      }
     },
 
-    async registerLocaleOnDb(via, nome, tipologia){
-      /*
+    async registerLocaleOnDb(nome, tipologia){
+
       let payload={
-        name:'Da Pino',
-        posizionex:'2',
-        posizioney:'3'
+        name: nome,
+        posizionex: this.posizioneX,
+        posizioney: this.posizioneY,
+        tipologia: tipologia
       }
-      */
-      console.log(via + nome + tipologia);
+
+      //console.log("via: " + via + "\nnome: " + nome + "\ntipo: " + tipologia + "\nposiz: " +  this.posizioneX + " " + this.posizioneY);
 
       try{
         let data = await registerLocale(payload);
+
       }catch(error){
         let message="non è stato possibile registrare il locale sul db "
+        Notify.create(message);
         console.log(message);
       }
+
     }
   }
 
