@@ -1,8 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-  <q-page-container>
-     <q-header elevated class="bg-black">
+    <q-page-container>
+      <q-header elevated class="bg-black">
         <q-toolbar>
+
 
           <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
           <q-toolbar-title>Menu</q-toolbar-title>
@@ -44,16 +45,20 @@
 
   <router-view />
   </q-page-container>
+
   </q-layout>
 </template>
 
 <script>
+
 import { defineComponent, ref } from 'vue'
 import {HOME, AUTH_PAGE, VISUALIZZA_LOCALI, INSERISCI_LOCALE} from '../router/routes'
 
 
+
 export default {
-  name: 'MainLayout',
+  name: "MainLayout",
+
 
   components: {
 
@@ -69,29 +74,33 @@ export default {
       AUTH_PAGE
     }
 
+      HOME,
+      AUTH_PAGE,
+    };
   },
-  methods:{
-    gotoHome(){
+  methods: {
+    gotoHome() {
       let route = {
-        name:HOME.name,
-        params:{}
-      }
+        name: HOME.name,
+        params: {},
+      };
       this.$router.push(route);
     },
-    gotoLogin(){
+    gotoLogin() {
       let route = {
-        name:AUTH_PAGE.name,
-        params:{}
-      }
+        name: AUTH_PAGE.name,
+        params: {},
+      };
       this.$router.push(route);
     },
-    gotoLocali(){
+    gotoLocali() {
       let route = {
-        name:VISUALIZZA_LOCALI.name,
-        params:{}
-      }
+        name: VISUALIZZA_LOCALI.name,
+        params: {},
+      };
       this.$router.push(route);
     },
+
     goToInserisciLocale(){
       let route = {
         name:INSERISCI_LOCALE.name,
@@ -101,4 +110,5 @@ export default {
   }
 
 }
+
 </script>
