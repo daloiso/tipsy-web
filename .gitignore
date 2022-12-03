@@ -1,1 +1,5 @@
 node_modules
+.quasar/app.js
+.quasar/client-entry.js
+.quasar/client-prefetch.js
+.quasar/import-quasar.js
