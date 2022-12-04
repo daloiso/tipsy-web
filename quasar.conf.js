@@ -23,7 +23,7 @@ module.exports = function (/* ctx */) {
     // https://v1.quasar.dev/quasar-cli/boot-files
     boot: [
 
-      'axios','leaflet'
+      'axios','leaflet','cors'
     ],
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -75,10 +75,7 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      before (app) {
-        const cors = require('cors')
-        app.use(cors())
-     },
+    
       https: false,
       port: 8081,
       open: true // opens browser window automatically
