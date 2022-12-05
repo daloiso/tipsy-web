@@ -6,16 +6,8 @@ export const registerUser=(payload,httpConfig={})=>{
 }
 
 export const registerLocale=(payload,httpConfig={})=>{
-  let url=`/inseriscilocale`;
-  return http.post(url,payload, {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods':'OPTIONS, POST, GET',
-      'Access-Control-Allow-Credentials':'true',
-      'Access-Control-Allow-Headers':'Content-Type'
-    }
-  }
-  )
+  let url=`/locale/inserisci`;
+  return http.post(url,payload, httpConfig)
 }
 
 export const getPlace=(value,httpConfig={})=>{
