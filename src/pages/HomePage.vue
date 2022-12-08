@@ -1,10 +1,16 @@
 <template>
-  <q-page class="flex q-pa-md">
-    <div>
-      <h3>Tipsy Web</h3>
-      <img src="../assets/imgs/tipsy-brewery-1.jpg" alt="">
+  <q-page class="flex">
+    <section id="title-section">
+      <div class="title">
+        <h3>TIPSY</h3>
+      </div>
+    </section>
 
+    <div class="img-container">
+      <div class="overlay"></div>
+      <img src="../assets/imgs/tipsy1.jpg" alt="">
     </div>
+
     <!--
     <div>
       <q-btn
@@ -19,7 +25,9 @@
   </q-page>
 </template>
 
+
 <script>
+import "../assets/homepageStyle.css";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
