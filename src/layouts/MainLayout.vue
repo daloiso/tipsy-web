@@ -36,6 +36,12 @@
 
       </q-item-label>
       <q-separator spaced />
+      <q-item-label header @click="goToGestioneContatti" >
+
+        Gestione Contatti
+
+        </q-item-label>
+        <q-separator spaced />
       </q-list>
     </q-drawer>
 
@@ -49,7 +55,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import {HOME, AUTH_PAGE, VISUALIZZA_LOCALI, INSERISCI_LOCALE} from '../router/routes'
+import {HOME, AUTH_PAGE, VISUALIZZA_LOCALI, INSERISCI_LOCALE, GESTIONE_CONTATTI} from '../router/routes'
 
 
 export default {
@@ -92,12 +98,20 @@ export default {
       }
       this.$router.push(route);
     },
+    goToGestioneContatti(){
+      let route = {
+        name:GESTIONE_CONTATTI.name,
+        params:{}
+      }
+      this.$router.push(route);
+    },
     goToInserisciLocale(){
       let route = {
         name:INSERISCI_LOCALE.name,
         params:{}
       }
-      this.$router.push(route);    }
+      this.$router.push(route);    
+    }
   }
 
 }

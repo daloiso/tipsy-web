@@ -22,6 +22,12 @@ export const VISUALIZZA_LOCALI ={
   component:()=>import("pages/VisualizzaLocaliPage.vue")
 }
 
+export const GESTIONE_CONTATTI ={
+  path:"/gestioneContatti",
+  name:"gestioneContatti",
+  component:()=>import("pages/GestioneContattiPage.vue")
+}
+
 export const INSERISCI_LOCALE ={
   path:"/inseriscilocale",
   name:"inseriscilocale",
@@ -31,7 +37,7 @@ export const INSERISCI_LOCALE ={
 export const LAYOUT_APP ={
   path:"/",
   component:()=>import("layouts/MainLayout.vue"),
-  children:[HOME, AUTH_PAGE, ERROR_PAGE, VISUALIZZA_LOCALI, INSERISCI_LOCALE]
+  children:[HOME, AUTH_PAGE, ERROR_PAGE, VISUALIZZA_LOCALI, INSERISCI_LOCALE, GESTIONE_CONTATTI]
 }
 
 const routes = [
