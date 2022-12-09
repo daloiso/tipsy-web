@@ -63,8 +63,7 @@ import ForgotPassword from "./ForgotPassword.vue";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { LocalStorage } from 'quasar'
 import {HOME, AUTH_PAGE} from '../router/routes';
 import {registerUser} from 'src/service/api';
 
@@ -112,6 +111,8 @@ export default {
         //registro
         console.log(result);
         let data= await this.registerUserOnDb(result);
+        LocalStorage.set("user", result.user.email)
+        
         //home
         let route = {
           name:HOME.name,

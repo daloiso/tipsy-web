@@ -21,9 +21,18 @@ const cols = [
   { name: 'email', label: 'e-mail', field: 'email' },
 
 ]
-
+import { LocalStorage } from 'quasar'
+import { Notify } from 'quasar'
 export default {
     name: 'GestioneContatti',
+    created () {
+        let user = LocalStorage.getItem("user")
+        if(user){
+
+        }else{
+            Notify.create("User not logged in");
+        }
+    },
     data() {
 
         return {
