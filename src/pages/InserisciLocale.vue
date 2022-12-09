@@ -1,11 +1,18 @@
 <template>
   <q-page class="flex q-pa-md">
-    Inserisci Locale
-
+ 
+     <div class="container">
+    <div >
+      <h3>
+         <strong>  Inserisci Locale</strong>
+        </h3>
+    </div>
+ 
     <q-form
       @submit="onSubmit"
-      class="q-gutter-md"
+      class="row"
     >
+   
     <q-input
         filled
         v-model="via"
@@ -14,11 +21,13 @@
         :rules="[
           val => val && val.length > 0 || 'Please type something'
         ]"
+        class="col-8"
       />
-      <button @click="searchPlace">
-      Cerca via
-      </button>
-
+      <div class="q-pa-md q-gutter-sm">
+      <q-btn @click="searchPlace" class="col-2" style="margin-left:20px" color="secondary" label="Cerca">
+      
+      </q-btn>
+      </div>
       <q-input
         filled
         v-model="nome"
@@ -27,15 +36,16 @@
         :rules="[
           val => val && val.length > 0 || 'Please type something'
         ]"
+        class="col-8"
       />
 
-      <q-select v-model="tipologia" :options="options" label="Standard" />
-
-      <div>
-        <q-btn label="Submit" type="submit" color="primary" :disabled="posizioneX==0"/>
+      <q-select v-model="tipologia" :options="options" label="Standard" class="col-8"/>
+ 
+      <div style="margin-top:20px" class="col-12">
+        <q-btn label="Submit" type="submit" color="secondary" :disabled="posizioneX==0"/>
       </div>
     </q-form>
-
+  </div >
   </q-page>
 
 </template>
@@ -108,3 +118,4 @@ export default {
 };
 
 </script>
+
