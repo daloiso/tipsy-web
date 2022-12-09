@@ -1,6 +1,6 @@
 <template>
     <q-page class="flex q-pa-md">
-        
+        <div class="row">
         <q-table
             title="Gestione Contatti"
             :rows="rows"
@@ -8,7 +8,69 @@
             row-key="contattoId"
             selection="single"
             :selected="selected"
+            class="col-12"
         />
+        <div class="q-pa-md q-gutter-sm">
+            <q-btn  @click="dialog = true" class="col-2" color="secondary" label="Inserisci Contatto"></q-btn>
+        </div>
+    </div>
+    <q-dialog v-model="dialog" persistent>
+        <q-card>
+        <q-card-section class="row items-center">
+            <div>
+            <q-form
+                @submit="inserisciContatto"
+                class="row"
+                >
+
+                <q-input
+                    filled
+                    v-model="nome"
+                    label="Nome"
+                    lazy-rules
+                    :rules="[
+                    val => val && val.length > 0 || 'Please type something'
+                    ]"
+                    class="col-8"
+                />
+                <q-input
+                    filled
+                    v-model="cognome"
+                    label="Cognome"
+                    lazy-rules
+                    :rules="[
+                    val => val && val.length > 0 || 'Please type something'
+                    ]"
+                    class="col-8"
+                />
+                <q-input
+                    filled
+                    v-model="telefono"
+                    label="Telefono"
+                    type="tel"
+                    lazy-rules
+                    :rules="[val => isValidTelephone(val)]"
+                    class="col-8"
+                />
+                <q-input
+                    filled
+                    v-model="email"
+                    label="Email"
+                    type="email"
+                    lazy-rules
+                    :rules="[val => isValidEmail(val)]"
+                    
+                    class="col-8"
+                />
+            </q-form>    
+            </div>
+        </q-card-section>
+        <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="secondary" v-close-popup />
+          <q-btn flat label="Inserisci Contatto" color="secondary" @click="inserisciContatto"/>
+        </q-card-actions>    
+        </q-card>
+    </q-dialog>
     </q-page>
 </template>
 <script>
@@ -36,9 +98,33 @@ export default {
     data() {
 
         return {
+            dialog:false,
             selected: null,
             rows: null,
-            columns: cols
+            columns: cols,
+            nome: null,
+            cognome: null,
+            telefono: null,
+            email: null
+        }
+    },
+    methods:{
+        inserisciContatto(){
+
+        },
+        isValidEmail (val) {
+            if(!val){
+                return "Please type something"
+            }
+            const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+            return emailPattern.test(val) || 'Invalid email';
+        },
+        isValidTelephone(val){
+            if(!val){
+                return "Please type something"
+            }
+            const emailPattern = /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g;
+            return emailPattern.test(val) || 'Invalid telephone';
         }
     }
 }
