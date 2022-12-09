@@ -104,14 +104,14 @@ export default {
     google() {
       const provider = new firebase.auth.GoogleAuthProvider()
       firebase.auth().signInWithPopup(provider)
-      .then(result=>registerUserAll(result))
+      .then(result=>this.registerUserAll(result))
       .catch(error => console.log('error',error))
     },
     async registerUserAll(result){
       
         //registro
         console.log(result);
-        let data= await registerUserOnDb(result);
+        let data= await this.registerUserOnDb(result);
         //home
         let route = {
           name:HOME.name,
@@ -121,8 +121,8 @@ export default {
     },
     async registerUserOnDb(result){
       let payload={
-        username:'',
-        email:''
+        username:result.user.displayName,
+        email:result.user.email
       }
       try{
         let data = await registerUser(payload);

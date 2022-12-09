@@ -1,7 +1,7 @@
 import {http, httpPlace} from "src/boot/axios"
 
 export const registerUser=(payload,httpConfig={})=>{
-    let url=`/login`;
+    let url=`/login/inserisci`;
     return http.post(url,payload, httpConfig)
 }
 
