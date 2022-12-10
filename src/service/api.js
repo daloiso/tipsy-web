@@ -3,12 +3,22 @@ import https from 'https'
 const fs = require('fs');
 export const registerUser=(payload,httpConfig={})=>{
     let url=`/login/inserisci`;
-    return http.post(url,payload, httpConfig)
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false,
+    })
+    return http.post(url,payload, {
+      httpsAgent:httpsAgent
+    })
 }
 
 export const registerLocale=(payload,httpConfig={})=>{
   let url=`/locale/inserisci`;
-  return http.post(url,payload, httpConfig)
+  const httpsAgent = new https.Agent({
+    rejectUnauthorized: false,
+  })
+  return http.post(url,payload,  {
+    httpsAgent:httpsAgent
+  })
    
 }
 
