@@ -9,6 +9,7 @@
 // https://v1.quasar.dev/quasar-cli/quasar-conf-js
 
 const ESLintPlugin = require('eslint-webpack-plugin')
+const fs = require('fs');
 
 module.exports = function (/* ctx */) {
   return {
@@ -75,8 +76,6 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-    
-      https: false,
       port: 8081,
       open: true // opens browser window automatically
     },
