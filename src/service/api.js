@@ -14,3 +14,8 @@ export const getPlace=(value,httpConfig={})=>{
   let url=`/search?q=${value}&format=geocodejson`;
   return httpPlace.get(url, httpConfig)
 }
+
+export const registerContatto=(payload,httpConfig={})=>{
+  let url=`/contatto/inserisci`;
+  return httpPlace.post(url,payload, httpConfig)
+}

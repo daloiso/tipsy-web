@@ -59,16 +59,16 @@
                     type="email"
                     lazy-rules
                     :rules="[val => isValidEmail(val)]"
-                    
+
                     class="col-8"
                 />
-            </q-form>    
+            </q-form>
             </div>
         </q-card-section>
         <q-card-actions align="right">
             <q-btn flat label="Cancel" color="secondary" v-close-popup />
           <q-btn flat label="Inserisci Contatto" color="secondary" @click="inserisciContatto"/>
-        </q-card-actions>    
+        </q-card-actions>
         </q-card>
     </q-dialog>
     </q-page>
@@ -85,12 +85,13 @@ const cols = [
 ]
 import { LocalStorage } from 'quasar'
 import { Notify } from 'quasar'
+import {registerContatto} from 'src/service/api';
 export default {
     name: 'GestioneContatti',
     created () {
         let user = LocalStorage.getItem("user")
         if(user){
-
+          this.utenteProv = user;
         }else{
             Notify.create("User not logged in");
         }
@@ -105,12 +106,13 @@ export default {
             nome: null,
             cognome: null,
             telefono: null,
-            email: null
+            email: null,
+            utenteProv: null
         }
     },
     methods:{
         inserisciContatto(){
-
+          this.inserisciContattoOnDb();
         },
         isValidEmail (val) {
             if(!val){
@@ -125,7 +127,30 @@ export default {
             }
             const emailPattern = /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g;
             return emailPattern.test(val) || 'Invalid telephone';
-        }
+        },
+
+        async inserisciContattoOnDb(){
+
+          let payload={
+            nome: this.nome,
+            cognome: this.cognome,
+            telefono: this.telefono,
+            email: this.email,
+            utenteProv: this.utenteProv
+          }
+
+          //console.log("via: " + via + "\nnome: " + nome + "\ntipo: " + tipologia + "\nposiz: " +  this.posizioneX + " " + this.posizioneY);
+
+          try{
+            let data = await registerContatto(payload);
+
+          }catch(error){
+            let message="non è stato possibile registrare il contatto sul db "
+            Notify.create(message);
+            console.log(message);
+          }
+
+      }
     }
 }
-</script>    
+</script>
