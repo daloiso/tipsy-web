@@ -1,14 +1,19 @@
 <template>
     <q-page class="flex q-pa-md">
         <div class="row">
+          <!--
+            <q-btn color="primary" label="Add row" @click="retrieveContattiFromDB" />
+
+          -->
         <q-table
             title="Gestione Contatti"
-            :rows="rows"
-            :columns="columns"
+            :data="righe"
+            :columns="cols"
             row-key="contattoId"
             selection="single"
             :selected="selected"
             class="col-12"
+            :loading="loading"
         />
         <div class="q-pa-md q-gutter-sm">
             <q-btn  @click="dialog = true" class="col-2" color="secondary" label="Inserisci Contatto"></q-btn>
@@ -83,6 +88,27 @@ const cols = [
   { name: 'email', label: 'e-mail', field: 'email' },
 
 ]
+
+/*
+cognome
+: 
+"Daloiso"
+contattoId
+: 
+1
+email
+: 
+"Pasquale.daloiso@gmail.com"
+nome
+: 
+"Pasquale"
+telefono
+: 
+"+393466000133"
+*/
+const rows = []
+
+
 import { LocalStorage } from 'quasar'
 import { Notify } from 'quasar'
 import {registerContatto, retrieveContatto} from 'src/service/api';
@@ -92,47 +118,55 @@ export default {
         let user = LocalStorage.getItem("user")
         if(user){
           this.utenteProv = user;
-          this.retrieveContattiFromDb();
+        
         }else{
             Notify.create("User not logged in");
         }
     },
+    setup () {
+    return {
+      cols
+    }
+  },
     data() {
 
         return {
             dialog:false,
-            selected: null,
-            rows: null,
-            columns: cols,
+            selected: [],
+            rows: this.retrieveContatti(),
             nome: null,
             cognome: null,
             telefono: null,
             email: null,
-            utenteProv: null
+            utenteProv: null,
+           loading:false
         }
     },
+    computed:{
+       righe(){
+        return this.rows;
+       }
+    },
     methods:{
-        async retrieveContattiFromDb(){
+        retrieveContatti(){
+            this.retrieveContattiFromDB();
+        },
+      
+        async retrieveContattiFromDB(){
           try{
+            this.loading=true;
             let contatti = await retrieveContatto(this.utenteProv);
             console.log(contatti.data);
-            visualizzaContatti(contatti.data);
+            this.rows= contatti.data;
+            
           }catch(error){
-            let message="non è stato possibile registrare il contatto sul db "
+            let message="non è stato possibile visualizzare i contatti dal db "
             Notify.create(message);
             console.log(message);
           }
+          this.loading=false;
         },
-        visualizzaContatti(arrContatti){
-          this.rows = [{
-            contattoId: 11231,
-            nome: "pasqauel",
-            cognome: "pasquale",
-            telefono: "34324423424",
-            email: "ame"
-          }]
-          //this.row[0] = arrContatti[0]
-        },
+      
         inserisciContatto(){
           this.inserisciContattoOnDb();
         },
