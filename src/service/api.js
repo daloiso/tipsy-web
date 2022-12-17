@@ -17,5 +17,10 @@ export const getPlace=(value,httpConfig={})=>{
 
 export const registerContatto=(payload,httpConfig={})=>{
   let url=`/contatto/inserisci`;
-  return httpPlace.post(url,payload, httpConfig)
+  return http.post(url,payload, httpConfig)
+}
+
+export const retrieveContatto=(value, httpConfig={})=>{
+  let url=`/contatto/visualizza?user=${value}`;
+  return http.get(url, httpConfig)
 }

@@ -85,13 +85,14 @@ const cols = [
 ]
 import { LocalStorage } from 'quasar'
 import { Notify } from 'quasar'
-import {registerContatto} from 'src/service/api';
+import {registerContatto, retrieveContatto} from 'src/service/api';
 export default {
     name: 'GestioneContatti',
     created () {
         let user = LocalStorage.getItem("user")
         if(user){
           this.utenteProv = user;
+          this.retrieveContattiFromDb();
         }else{
             Notify.create("User not logged in");
         }
@@ -111,6 +112,27 @@ export default {
         }
     },
     methods:{
+        async retrieveContattiFromDb(){
+          try{
+            let contatti = await retrieveContatto(this.utenteProv);
+            console.log(contatti.data);
+            visualizzaContatti(contatti.data);
+          }catch(error){
+            let message="non è stato possibile registrare il contatto sul db "
+            Notify.create(message);
+            console.log(message);
+          }
+        },
+        visualizzaContatti(arrContatti){
+          this.rows = [{
+            contattoId: 11231,
+            nome: "pasqauel",
+            cognome: "pasquale",
+            telefono: "34324423424",
+            email: "ame"
+          }]
+          //this.row[0] = arrContatti[0]
+        },
         inserisciContatto(){
           this.inserisciContattoOnDb();
         },
