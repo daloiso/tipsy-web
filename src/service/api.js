@@ -24,3 +24,7 @@ export const retrieveContatto=(value, httpConfig={})=>{
   let url=`/contatto/visualizza?user=${value}`;
   return http.get(url, httpConfig)
 }
+export const modifyContatto=(payload,httpConfig={})=>{
+  let url=`/contatto/modifica`;
+  return http.post(url,payload, httpConfig)
+}
