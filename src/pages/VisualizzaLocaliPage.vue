@@ -127,7 +127,7 @@ methods: {
     return latLng(marker1.posizioney,marker1.posizionex);
   },
   getPathImg(marker1) {
-    return "~assets/" +marker1.tipologia+".png"
+    return "icons/" +marker1.tipologia+".png"
   } 
 }
 };
