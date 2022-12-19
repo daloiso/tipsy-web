@@ -28,3 +28,8 @@ export const modifyContatto=(payload,httpConfig={})=>{
   let url=`/contatto/modifica`;
   return http.post(url,payload, httpConfig)
 }
+
+export const visualizzaLocale=(payload,httpConfig={})=>{
+  let url=`/locale/visualizza`;
+  return http.post(url,payload, httpConfig)
+}

@@ -62,7 +62,7 @@ export default {
   data() {
 
     return {
-      options : ['Birreria', 'Vineria', 'Cocktail Bar'],
+      options : ['Birreria', 'Vineria'],
       via: "",
       nome: "",
       tipologia: "",
