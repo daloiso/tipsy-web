@@ -1,13 +1,18 @@
 <template>
   <div>
+    <!--
     <template v-if="tab === 'register'">
       <div class="text-center q-mb-lg">Sign up with</div>
     </template>
     <template v-else>
       <div class="text-center q-mb-lg">Sign in with</div>
     </template>
-    <div class="flex flex-center">
+    -->
+
+    <div class="flex flex-center" v-if="utenteProv==null">
+      <div class="text-center q-mb-lg">Sign in with</div>
       <q-btn
+
         class="flex flex-center q-px-lg q-py-sm q-mb-md"
         color="primary"
         size="md"
@@ -15,6 +20,20 @@
         @click="google"
       />
     </div>
+    <div v-else> 
+
+      <div class="text-center q-mb-lg bold">Scegli il profilo</div>
+      <q-form @submit="registerUserOnDb" class="row">
+        <div class="col-4"></div>
+        <q-select v-model="profilo" :options="options" label="Profilo" class="col-4 "/>
+        <div style="margin-top:20px; display: flex;  justify-content: center" class="col-12">
+
+          <q-btn label="Submit" type="submit" color="secondary"  />
+        </div>
+      </q-form>
+</div>
+   
+    <!--
     <template v-if="tab === 'register'">
       <p class="text-center">Sign up with credentials</p>
     </template>
@@ -55,6 +74,7 @@
     <q-dialog v-model="resetPwdDialog">
       <ForgotPassword />
     </q-dialog>
+    -->
   </div>
 </template>
 
@@ -66,7 +86,7 @@ import 'firebase/compat/firestore';
 import { LocalStorage } from 'quasar'
 import {HOME, AUTH_PAGE} from '../router/routes';
 import {registerUser} from 'src/service/api';
-
+import { Notify } from 'quasar'
 const firebaseConfig = {
     apiKey: "AIzaSyCx2Jtbf51lWlsJHaUZgUObmDv_TkvdVQQ",
   authDomain: "tipsy-368410.firebaseapp.com",
@@ -82,14 +102,25 @@ const auth = firebase.auth();
 export default {
   name: "AuthComponent",
   props: ["tab"],
-  components: { ForgotPassword },
+  components: {  },
+  created() {
+    let user = LocalStorage.getItem("user")
+    if (user) {
+      this.utenteProv = user;
+      this.displayName = LocalStorage.getItem("displayname")
+    } 
+  },
   data() {
     return {
       formData: {
         email: "",
         password: "",
       },
+      utenteProv:null,
       resetPwdDialog: false,
+      profilo:'venditore',
+      options:['venditore','consumatore','entrambi'],
+      displayName: null
     };
   },
   methods: {
@@ -110,26 +141,37 @@ export default {
       
         //registro
         console.log(result);
-        let data= await this.registerUserOnDb(result);
+        //let data= await this.registerUserOnDb(result);
         LocalStorage.set("user", result.user.email)
-        
+        LocalStorage.set("displayname", result.user.displayName)
+        this.utenteProv=result.user.email
+        this.displayName=result.user.displayName
         //home
+        /*
         let route = {
           name:HOME.name,
           params:{}
         }
         this.$router.push(route)
+        */
     },
     async registerUserOnDb(result){
       let payload={
-        username:result.user.displayName,
-        email:result.user.email
+        username:this.displayName,
+        email:this.utenteProv,
+        tipo: this.profilo
       }
       try{
         let data = await registerUser(payload);
+        let route = {
+          name:HOME.name,
+          params:{}
+        }
+        this.$router.push(route)
       }catch(error){
         let message="non è stato possisbile registrare su db l'utente"
         console.log(message);
+        Notify.create(message);
       }
     },
     signInExistingUser(email, password) {
