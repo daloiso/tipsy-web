@@ -33,3 +33,8 @@ export const visualizzaLocale=(payload,httpConfig={})=>{
   let url=`/locale/visualizza`;
   return http.post(url,payload, httpConfig)
 }
+
+export const visualizzaUser=(value,httpConfig={})=>{
+  let url=`/login/visualizza?utente=${value}`;
+  return http.get(url, httpConfig)
+}

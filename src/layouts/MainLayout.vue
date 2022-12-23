@@ -30,18 +30,18 @@
 
       </q-item-label>
       <q-separator spaced />
-      <q-item-label header @click="goToInserisciLocale" >
+      <q-item-label header @click="goToInserisciLocale" v-if="venditore==true">
 
         Inserisci Locale
 
       </q-item-label>
-      <q-separator spaced />
-      <q-item-label header @click="goToGestioneContatti" >
+      <q-separator spaced v-if="venditore==true"/>
+      <q-item-label header @click="goToGestioneContatti" v-if="consumatore==true">
 
         Gestione Contatti
 
         </q-item-label>
-        <q-separator spaced />
+        <q-separator spaced v-if="consumatore==true"/>
       </q-list>
     </q-drawer>
 
@@ -56,7 +56,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import {HOME, AUTH_PAGE, VISUALIZZA_LOCALI, INSERISCI_LOCALE, GESTIONE_CONTATTI} from '../router/routes'
-
+import {visualizzaUser} from 'src/service/api';
 
 export default {
   name: 'MainLayout',
@@ -64,7 +64,20 @@ export default {
   components: {
 
   },
-
+  data() {
+    return {
+      venditore:false,
+      consumatore:false
+    }
+  },
+  created() {
+    let user = LocalStorage.getItem("user")
+    if (user) {
+      let data = this.visualizzaUserDB(user);
+      console.log(data);
+    } 
+  },
+  
   setup () {
 
 
@@ -77,6 +90,15 @@ export default {
 
   },
   methods:{
+    async visualizzaUserDB(user){
+      try{
+        let utente = await visualizzaUser(user)
+        return utente;
+      }catch(SearchPlaceError){
+        console.log("SvisualizzaUser error: " + SearchPlaceError)
+        Notify.create("API don't work");
+      }
+    },
     gotoHome(){
       let route = {
         name:HOME.name,
