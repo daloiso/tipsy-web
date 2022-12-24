@@ -103,9 +103,18 @@ h3{
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "HomePage",
-
+  
+  created(){
+    let reload = this.$route.params.reload
+    if(reload){
+      //this.reload=false
+      location.reload();
+    }
+  },
   data() {
-    return {};
+    return {
+
+    };
   },
   methods: {
     logout() {

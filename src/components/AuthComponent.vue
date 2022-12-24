@@ -163,9 +163,10 @@ export default {
       }
       try{
         let data = await registerUser(payload);
+        
         let route = {
           name:HOME.name,
-          params:{}
+          params:{reload:true}
         }
         this.$router.push(route)
       }catch(error){

@@ -5,7 +5,7 @@
         <q-toolbar>
 
           <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
-          <q-toolbar-title>Menu</q-toolbar-title>
+          <q-toolbar-title >Menu</q-toolbar-title>
 
         </q-toolbar>
       </q-header>
@@ -57,7 +57,8 @@
 import { defineComponent, ref } from 'vue'
 import {HOME, AUTH_PAGE, VISUALIZZA_LOCALI, INSERISCI_LOCALE, GESTIONE_CONTATTI} from '../router/routes'
 import {visualizzaUser} from 'src/service/api';
-
+import { LocalStorage } from 'quasar'
+import { Notify } from 'quasar'
 export default {
   name: 'MainLayout',
 
@@ -70,13 +71,25 @@ export default {
       consumatore:false
     }
   },
-  created() {
-    let user = LocalStorage.getItem("user")
-    if (user) {
-      let data = this.visualizzaUserDB(user);
-      console.log(data);
-    } 
-  },
+  //computed: {
+    created(){
+      let user = LocalStorage.getItem("user")
+      if (user) {
+        this.visualizzaUserDB(user)
+        .then(result=>{
+            if(result.data.tipo=='consumatore'||result.data.tipo=='entrambi'){
+              this.consumatore=true 
+            }
+            if(result.data.tipo=='venditore'||result.data.tipo=='entrambi'){
+              this.venditore=true 
+            }
+          }
+        )
+        .catch(error => console.log('error',error))
+      } 
+      return user;
+    },
+  //},
   
   setup () {
 
