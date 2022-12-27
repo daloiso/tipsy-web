@@ -1,4 +1,6 @@
 # Quasar App (tipsyweb)
+docker hub id: tipsyhub
+docker hub pw: tipsyhub1234
 
 A Quasar Project
 
