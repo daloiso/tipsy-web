@@ -3,3 +3,4 @@ node_modules
 .quasar/client-entry.js
 .quasar/client-prefetch.js
 .quasar/import-quasar.js
+dist
