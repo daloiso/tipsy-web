@@ -29,3 +29,10 @@ quasar build
 
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).
+
+
+# tipsy-service
+docker image list
+docker image rm unito/tipsy-web
+docker build -t unito/tipsy-web .
+minikube image load unito/tipsy-web
