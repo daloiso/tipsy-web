@@ -37,4 +37,5 @@ docker image rm unito/tipsy-web
 docker build -t unito/tipsy-web .
 minikube image load unito/tipsy-web
 
-kubectl port-forward tipsy-web-svc-756664b47f-7mfvk  3000:3000
+kubectl port-forward tipsy-web-svc-756664b47f-7mfvk  3000:3000 &
+port-forward tipsy-svc-57ccd8d7b8-f6mns 8443:8443 &
