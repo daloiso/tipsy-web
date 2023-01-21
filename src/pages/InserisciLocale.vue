@@ -92,24 +92,28 @@ export default {
     },
 
     async registerLocaleOnDb(nome, tipologia){
-
-      let payload={
-        name: nome,
-        posizionex: this.posizioneX,
-        posizioney: this.posizioneY,
-        tipologia: tipologia
-      }
-
-      //console.log("via: " + via + "\nnome: " + nome + "\ntipo: " + tipologia + "\nposiz: " +  this.posizioneX + " " + this.posizioneY);
-
-      try{
-        let data = await registerLocale(payload);
-
-      }catch(error){
-        let message="non è stato possibile registrare il locale sul db "
+      let user = LocalStorage.getItem("user")
+      if(user!=null) {
+        let payload={
+          name: nome,
+          posizionex: this.posizioneX,
+          posizioney: this.posizioneY,
+          tipologia: tipologia,
+          mail: user
+        }
+        //console.log("via: " + via + "\nnome: " + nome + "\ntipo: " + tipologia + "\nposiz: " +  this.posizioneX + " " + this.posizioneY);
+        try{
+          let data = await registerLocale(payload);
+        }catch(error){
+          let message="non è stato possibile registrare il locale sul db "
+          Notify.create(message);
+          console.log(message);
+        }
+      } else {
+        let message="Utente non loggato "
         Notify.create(message);
-        console.log(message);
       }
+
 
     }
   }
